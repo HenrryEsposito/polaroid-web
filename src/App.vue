@@ -27,8 +27,16 @@
           </div>
         </div>
         <div id="q__light">
-        q-light
-      </div>
+          q-light
+        </div>
+        <div id="flash_switch">
+          <div id="switch__icon__1" />
+          <div id="switch__icon__2" />
+          <div id="switch__icon__3" />
+          <div id="switch__left__side" />
+          <div id="switch__middle__side" />
+          <div id="switch__right__side" />
+        </div>
       </div>
     </div>
     <div id="cam__body">
@@ -44,10 +52,20 @@
         <div id="lens__trapezoid" />
         <div :id="'lens__circles__' + n" v-for="n in 9" v-bind:key="n.id"/>
         <div id="lens__iris">
+          <div id="lens__name">
+            <div :id="'char__' + index" v-for="(n, index) in myNameIs.split('')" v-bind:key="n.id">
+              {{ n }}
+            </div>            
+          </div>
           <div id="iris__center">
             <div id="iris__center__spot__light" />
           </div>
-          <div id="iris__spot__light" />
+          <div id="iris__aperture">
+            <div :id="'aperture__axis__' + n" v-for="n in 9" v-bind:key="n.id">
+            <div class="aperture__section" :style="{ transform: 'rotate(' + rotation + 'rad)'}"/>
+            </div>
+          </div>
+          <div id="iris__spot__light" />          
         </div>
       </div>
       <div id="square__lens" />
@@ -70,6 +88,57 @@
 
 export default {
   name: 'App',
+  data() {
+    return {
+      myNameIs: 'Henrry Grilo Esposito',
+      rotation: 0.9,
+      increment: true,
+    };
+  },
+  mounted() {
+    this.incrementRotation();
+  },
+  methods: {
+    incrementRotation() {
+      if (this.increment) {
+
+        if (this.rotation < 1.8) {
+          this.rotation += 0.1;
+          setTimeout(() => {
+            this.incrementRotation();
+          },100);
+        }
+
+        else {
+          this.rotation -= 0.1;
+          setTimeout(() => {
+            this.incrementRotation();
+          },100);
+
+          this.increment = false
+        }
+      }
+
+      else {
+
+        if (this.rotation > .9) {
+          this.rotation -= 0.1;
+          setTimeout(() => {
+            this.incrementRotation();
+          },100);
+        }
+
+        else {
+          this.rotation += 0.1;
+          setTimeout(() => {
+            this.incrementRotation();
+          },100);
+
+          this.increment = true;
+        }
+      }
+    },
+  }
 }
 </script>
 
@@ -214,6 +283,67 @@ html {
   font-size: 18px;
   font-family:'Helvetica';
   line-height: 40px;
+}
+#flash_switch {
+  height: 30px;
+  width: 60px;
+  border-radius: 8px;
+  background: linear-gradient(0deg, rgb(41, 41, 41) 0%, rgb(87, 87, 87) 50%, rgb(41, 41, 41) 100%);
+  position: absolute;
+  top: 180px;
+  right: -50px;
+}
+#switch__left__side {
+  height: 30px;
+  width: 24px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, rgb(87, 87, 87) 0%, rgb(41, 41, 41) 100%);
+  position: absolute;
+}
+#switch__middle__side {
+  height: 18px;
+  width: 4px;
+  border-radius: 8px;
+  background-color: rgb(119, 119, 119);
+  position: absolute;
+  right: 50%;
+  transform: translate(50%);
+}
+#switch__right__side {
+  height: 30px;
+  width: 24px;
+  border-radius: 8px;
+  background: linear-gradient(90deg,rgb(41, 41, 41) 0%, rgb(87, 87, 87) 100%);
+  position: absolute;
+  right: 0;
+}
+#switch__icon__1 {
+  height: 5px;
+  width: 5px;
+  border-radius: 50%;
+  border: 2px solid  rgb(41, 41, 41);
+  position: absolute;
+  top: -15px
+}
+#switch__icon__2 {
+  
+  top: -15px;
+  right: 50%;
+  transform: translate( 50%);
+  position: absolute;
+  border-right: 5px solid transparent;
+  border-left: 5px solid  transparent;
+  border-top: 8px solid  rgb(41, 41, 41);
+
+}
+#switch__icon__3 {
+  height: 9px;
+  width: 9px;
+  border-radius: 50%;
+  background-color:  rgb(41, 41, 41);
+  position: absolute;
+  top: -15px;
+  right: 0px
 }
 #cam__flash__base {
   height: 200px;
@@ -366,6 +496,22 @@ html {
   border-left: 2px solid #fef8e2;
   border-bottom: 2px solid #fef8e2;
 }
+#lens__name {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 6px;
+  font-weight: 700;
+  color: rgb(75, 75, 75);
+}
+@for $i from 0 through 20 {
+  #char__#{$i} {
+    position: absolute;
+    padding-top: 43px;    
+    transform-origin:0% 0%;
+    transform: rotate(2rad - $i / 5);
+  }
+}
 #iris__center {
   height: 12px;
   width: 12px;
@@ -386,6 +532,29 @@ html {
   top: 3px;
   right: 3px;
   background-color: #8d8d8d;
+}
+#iris__aperture {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  clip-path: circle(50% at 50% 50%);
+}
+@for $i from 0 through 11{
+  #aperture__axis__#{$i} {
+    position: absolute;
+    top: 50%;
+  left: 50%;
+    padding-top: 43px;    
+    transform-origin:0% 0%;
+    transform: rotate(0rad - $i / 1.435);
+  }
+}
+.aperture__section {
+  height: 120px;
+  width: 120px;
+  background: linear-gradient(10deg, rgb(19, 19, 19) 0%, rgb(78, 78, 78) 100%);;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  transform-origin:50% 0%;
 }
 #iris__spot__light {
   height: 5px;
@@ -494,4 +663,6 @@ html {
   border-left: 3px solid  rgb(92, 92, 92);
   transform:  perspective(30em) rotateX(70deg);
 }
+
+
 </style>
