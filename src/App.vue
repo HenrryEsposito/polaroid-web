@@ -29,7 +29,10 @@
         <div id="q__light">
           q-light
         </div>
-        <div id="flash_switch">
+        <div id="flash__sensor">
+          <div id="sensor__lens"/>
+        </div>
+        <div id="flash__switch">
           <div id="switch__icon__1" />
           <div id="switch__icon__2" />
           <div id="switch__icon__3" />
@@ -68,9 +71,21 @@
           <div id="iris__spot__light" />          
         </div>
       </div>
-      <div id="square__lens" />
-      <div id="red__btn" />
-      <div id="black__knob" />
+      <div id="square__lens">
+        <div id="square__lens__iris">
+          <div id="square__iris__center">
+            <div id="iris__center__spot__light" />
+          </div>
+          
+          <div id="square__iris__spot__light" />          
+        </div>
+      </div>
+      <div id="red__btn">
+        <div id="red__contour" />
+      </div>
+      <div id="black__knob">
+        <div id="knob__center" />
+      </div>
       <div id="base__link" />
     </div>
 
@@ -284,7 +299,27 @@ html {
   font-family:'Helvetica';
   line-height: 40px;
 }
-#flash_switch {
+#flash__sensor {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background: linear-gradient(0deg, rgb(41, 41, 41) 0%, rgb(87, 87, 87) 50%, rgb(41, 41, 41) 100%);
+  position: absolute;
+  top: 180px;
+  right: 50px;
+}
+#sensor__lens {
+  height: 4px;
+  width: 4px;
+  border-radius: 50%;
+  background-color:  rgb(54, 54, 54);
+  border: 6px solid rgb(41, 41, 41);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#flash__switch {
   height: 30px;
   width: 60px;
   border-radius: 8px;
@@ -552,7 +587,7 @@ html {
 .aperture__section {
   height: 120px;
   width: 120px;
-  background: linear-gradient(10deg, rgb(19, 19, 19) 0%, rgb(78, 78, 78) 100%);;
+  background: linear-gradient(10deg, rgb(19, 19, 19) 0%, rgb(78, 78, 78) 100%);
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   transform-origin:50% 0%;
 }
@@ -593,6 +628,16 @@ html {
   border: 8px solid #fef8e2;
   box-shadow: 0 0 0 2pt #858585;
 }
+#red__contour {
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 0px 5px 0px #000000;
+}
 #black__knob {
   height: 60px;
   width: 60px;
@@ -601,6 +646,19 @@ html {
   position: absolute;
   top: 185px;
   right: 70px;
+  box-shadow: 0px 0px 3px 0px #000000;
+}
+#knob__center {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background: linear-gradient(0deg, rgb(31, 31, 31) 0%, rgb(58, 58, 58) 100%);
+  border: 3px dashed rgb(85, 85, 85);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 0px 5px 0px #000000;
 }
 #square__lens {
   height: 100px;
@@ -609,9 +667,42 @@ html {
   position: absolute;
   top: 25px;
   right: 25px;
-  background-color:  rgb(41, 41, 41);
+  background: linear-gradient(0deg, rgb(36, 36, 36) 0%, rgb(53, 53, 53) 50%, rgb(36, 36, 36) 100%);
   border: 4px solid #fef8e2;
   box-shadow: 0 0 0 2pt #858585;
+}
+#square__lens__iris {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;  
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color:  rgb(31, 31, 31);
+  border-bottom: 2px solid #8a887e;
+}
+#square__iris__center {
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;  
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color:  rgb(39, 39, 39);
+  border: 10px solid rgb(33, 33, 33);
+  box-shadow: 0 0 0 5pt rgb(27, 27, 27);
+}
+#square__iris__spot__light {
+  height: 3px;
+  width: 10px;
+  border-radius: 50%;  
+  position: absolute;
+  top: 18px;
+  left: 55px;
+  background-color: #fef8e2;
+  transform: rotateZ(40deg);
 }
 #cam__base {
   height: 165px;
