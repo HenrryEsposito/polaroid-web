@@ -6,6 +6,9 @@
       </div>
     </div>
     <div id="cam__flash__body">
+      <div class="rainbow__stripe cam__flash__rainbow">
+          <div :id="'stripe__' + n" class="stripe" v-for="n in 6" v-bind:key="n.id" />
+        </div>
       <div id="flash__light">
         <div id="light__reflector">
           <div id="reflector__center" />
@@ -43,11 +46,22 @@
       </div>
     </div>
     <div id="cam__body">
+      <div class="rainbow__stripe">
+        <div :id="'stripe__' + n" class="stripe" v-for="n in 6" v-bind:key="n.id" />
+      </div>
       <div id="cam__body__chamfer" />  
       <div id="body__base" />
-      <div id="body__base__line" />
+      <div id="body__base__line">
+        <div class="rainbow__stripe body__base__rainbow">
+          <div :id="'stripe__' + n" class="stripe" v-for="n in 6" v-bind:key="n.id" />
+        </div>
+      </div>
       <div id="body__base__middle__line" />
-      <div id="body__base__base" />
+      <div id="body__base__base">
+        <div class="rainbow__stripe base__base__rainbow">
+          <div :id="'stripe__' + n" class="stripe" v-for="n in 6" v-bind:key="n.id" />
+        </div>
+      </div>
       <div id="one__step">
         one step
       </div>
@@ -71,6 +85,7 @@
           <div id="iris__spot__light" />          
         </div>
       </div>
+      
       <div id="square__lens">
         <div id="square__lens__iris">
           <div id="square__iris__center">
@@ -481,6 +496,39 @@ html {
   position: absolute;
   left: -13px;
   top: 335px;
+}
+$colors: ('', '#d78aaa', '#cb6b17', '#e49b00', '#e4c105', '#909310', '#0a8abb');
+.rainbow__stripe {
+  height: 35px;
+  width: 50px;
+  position: absolute;
+  left: 50%;
+  top: 230px;
+  display: flex;
+  transform: translate(-50%);
+}
+.stripe {
+  width: 100%;
+  height: 100%;
+}
+@for $i from 1 through 6 {
+  #stripe__#{$i} {
+    background-color: unquote(nth($colors, $i+1));
+  }
+}
+.body__base__rainbow {
+  top: 0px;
+  height: 65px;
+  width: 53px;
+}
+.base__base__rainbow {
+  top: 0px;
+  height: 30px;
+  width: 56px;
+}
+.cam__flash__rainbow {
+  top: 70px;
+  height: 70px;
 }
 #cam__lens {
   height: 200px;
