@@ -105,14 +105,24 @@
     </div>
 
     <div id="cam__base">
-      <div id="camera__title">polaroid land camera</div>
-      <div id="base__middle__line" />
       <div id="output__contour" />
       <div id="output__contour__perspective" />
+
+      
+
+      <div id="base__middle__line" />
+      
+      <div id="camera__title">polaroid land camera</div>
     </div>
 
     <div v-if="flashOpacity" id="flash__screen" :style="'opacity: ' + flashOpacity + '%'"/>
 
+    <div id="photo__view">
+      <div id="photo__paper" :class="photoClass">
+        <div id="photo__frame"></div>
+      </div>
+    </div>
+    
     <footer>
       <img class="footer__icon" src="./assets/git.png" @click="goto('https://github.com/HenrryEsposito/polaroid-web')" />
       <img class="footer__icon" src="./assets/linkedin.png" @click="goto('https://www.linkedin.com/in/henrry-esposito')" />
@@ -136,6 +146,7 @@ export default {
       apertureKnobStage: 0,
       shootFunc: true,
       knobFunc: true,
+      photoClass: '',
     };
   },
   methods: {
@@ -190,11 +201,19 @@ export default {
       }      
     },
     async shoot() {
-      if (this.shootFunc)
+      if (this.shootFunc) {
+
+        this.photoClass = 'photo__drop'
         this.shootFunc = false
+
+        setTimeout(() => {
+          this.photoClass = ''
+          this.shootFunc = true
+        }, 3000);
+
         this.flash();
-        await this.clickAperture();
-        this.shootFunc = true;
+        this.clickAperture();
+      }
     },
   }
 }
@@ -206,6 +225,7 @@ html {
   background-repeat: no-repeat;
   background-size: cover;
   height: 100%;
+  overflow: hidden;
 }
 body {
   height: 100%;
@@ -823,13 +843,18 @@ $colors: ('', '#d78aaa', '#cb6b17', '#e49b00', '#e4c105', '#909310', '#0a8abb');
   transform: perspective(30em) rotateX(-5deg);
 }
 #camera__title {
-  padding-top: 35px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  width: 100%;
+  padding: 35px 0 15px;
   font-family:'Lucida Console';
   font-weight: 500;
   color: #fef8e2;
   font-size: 20px;
   text-transform: uppercase;
   text-align: center;
+  background-color: rgb(41, 41, 41);
 }
 #base__middle__line {
   height: 4px;
@@ -862,5 +887,54 @@ $colors: ('', '#d78aaa', '#cb6b17', '#e49b00', '#e4c105', '#909310', '#0a8abb');
   border-right: 3px solid  rgb(92, 92, 92);
   border-left: 3px solid  rgb(92, 92, 92);
   transform:  perspective(30em) rotateX(70deg);
+}
+#photo__view {
+  height: 420px;
+  width: 530px;
+  position: absolute;
+  top: 700px;
+  left: 50%;
+  transform: translate(-50%);
+  overflow: hidden;
+}
+#photo__paper {
+  height: 420px;
+  width: 350px;
+  background-color: white;
+  position: absolute;
+  top: -420px;
+  left: 50%;
+  transform: translate(-50%);
+  transform-origin:50% 50%;
+}
+.photo__drop {
+  animation: drop 3s;
+}
+@keyframes drop {
+  0% {
+    top: -420px;
+    transform: translate(-50%) perspective(50em) rotateX(70deg);
+  }
+  50% {
+    top: -200px;
+    transform: translate(-50%) perspective(50em) rotateX(10deg);
+  }
+  70% {
+    top: -200px;
+    transform: translate(-50%) perspective(50em) rotateX(10deg);
+  }
+  100% {
+  top: 300px;
+  transform: translate(-50%) perspective(50em) rotateX(-10deg);
+  }
+}
+#photo__frame {
+  height: 320px;
+  width: 320px;
+  background-color: rgb(0, 0, 0);
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translate(-50%)
 }
 </style>
