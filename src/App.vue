@@ -95,10 +95,10 @@
           <div id="square__iris__spot__light" />          
         </div>
       </div>
-      <div id="red__btn">
+      <div id="red__btn" @click="shoot()">
         <div id="red__contour" />
       </div>
-      <div id="black__knob">
+      <div id="black__knob" @click="apertureKnobFunc()">
         <div id="knob__center" />
       </div>
       <div id="base__link" />
@@ -110,7 +110,14 @@
       <div id="output__contour" />
       <div id="output__contour__perspective" />
     </div>
-    
+
+    <div v-if="flashOpacity" id="flash__screen" :style="'opacity: ' + flashOpacity + '%'"/>
+
+    <footer>
+      <img class="footer__icon" src="./assets/git.png" @click="goto('https://github.com/HenrryEsposito/polaroid-web')" />
+      <img class="footer__icon" src="./assets/linkedin.png" @click="goto('https://www.linkedin.com/in/henrry-esposito')" />
+      <flex>Henrry Grilo Esposito - Polaroid Land Camera</flex>
+    </footer>
   </div>
 </template>
 
@@ -121,52 +128,73 @@ export default {
   data() {
     return {
       myNameIs: 'Henrry Grilo Esposito',
+      minAperture: .9,
+      maxAperture: 1.8,
       rotation: 0.9,
       increment: true,
+      flashOpacity: 0,
+      apertureKnobStage: 0,
+      shootFunc: true,
+      knobFunc: true,
     };
   },
-  mounted() {
-    this.incrementRotation();
-  },
   methods: {
-    incrementRotation() {
-      if (this.increment) {
-
-        if (this.rotation < 1.8) {
-          this.rotation += 0.1;
-          setTimeout(() => {
-            this.incrementRotation();
-          },100);
-        }
-
-        else {
-          this.rotation -= 0.1;
-          setTimeout(() => {
-            this.incrementRotation();
-          },100);
-
-          this.increment = false
-        }
+    goto(path) {
+      window.location = path;
+      },
+    sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    },
+    async clickAperture() {
+      const currentAperture = this.rotation;
+      while (this.rotation < this.maxAperture) {
+        this.rotation += .1
+        await this.sleep(15)
       }
-
-      else {
-
-        if (this.rotation > .9) {
-          this.rotation -= 0.1;
-          setTimeout(() => {
-            this.incrementRotation();
-          },100);
-        }
-
-        else {
-          this.rotation += 0.1;
-          setTimeout(() => {
-            this.incrementRotation();
-          },100);
-
-          this.increment = true;
-        }
+      while (this.rotation > this.minAperture) {
+        this.rotation -= .1
+        await this.sleep(15)
       }
+      await this.setAperture(currentAperture + .1);
+    },
+    async setAperture(set) {
+      while (this.rotation > set + .1 || this.rotation < set - .1) {
+        this.rotation += this.rotation < set ? .01 : -.01;
+        await this.sleep(10)
+      }
+    },
+    async apertureKnobFunc() {
+      if(this.knobFunc){
+        this.knobFunc = false;
+        if (this.apertureKnobStage == 0) {
+          await this.setAperture(1.4)
+          this.apertureKnobStage ++;
+        }
+        else if (this.apertureKnobStage == 1) {
+          await this.setAperture(1.6)
+          this.apertureKnobStage ++;
+        }
+        else {
+          await this.setAperture(this.minAperture)
+          this.apertureKnobStage = 0;
+        }
+        this.knobFunc = true;
+      }
+    },
+    async flash() {      
+      this.flashFunc = false;
+      this.flashOpacity = 100;
+      while (this.flashOpacity > 0) {
+        this.flashOpacity -= 1;
+        await this.sleep(1);
+      }      
+    },
+    async shoot() {
+      if (this.shootFunc)
+        this.shootFunc = false
+        this.flash();
+        await this.clickAperture();
+        this.shootFunc = true;
     },
   }
 }
@@ -177,11 +205,42 @@ html {
   background-color: #fef8e2;
   background-repeat: no-repeat;
   background-size: cover;
+  height: 100%;
+}
+body {
+  height: 100%;
+}
+footer {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+  margin: 20px;
+  flex {
+    margin: 15px 20px;
+    font-family:'Helvetica';
+    font-weight: 700;
+    font-size: 20px;
+    color: rgb(41, 41, 41);
+  }
+}
+.footer__icon {
+  height: 50px;
+  width: 50px;
+  margin-left: 20px;
+  cursor: pointer;
 }
 #app {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
+}
+#flash__screen {
+  height: 100%;
+  width: 100%;
+  background-color: #fff;
+  z-index: 10;
 }
 #cam__flash__body {
   height: 140px;
@@ -675,6 +734,7 @@ $colors: ('', '#d78aaa', '#cb6b17', '#e49b00', '#e4c105', '#909310', '#0a8abb');
   left: 50px;
   border: 8px solid #fef8e2;
   box-shadow: 0 0 0 2pt #858585;
+  cursor: pointer;
 }
 #red__contour {
   height: 48px;
@@ -695,6 +755,7 @@ $colors: ('', '#d78aaa', '#cb6b17', '#e49b00', '#e4c105', '#909310', '#0a8abb');
   top: 185px;
   right: 70px;
   box-shadow: 0px 0px 3px 0px #000000;
+  cursor: pointer;
 }
 #knob__center {
   height: 40px;
@@ -802,6 +863,4 @@ $colors: ('', '#d78aaa', '#cb6b17', '#e49b00', '#e4c105', '#909310', '#0a8abb');
   border-left: 3px solid  rgb(92, 92, 92);
   transform:  perspective(30em) rotateX(70deg);
 }
-
-
 </style>
