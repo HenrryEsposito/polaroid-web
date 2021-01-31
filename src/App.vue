@@ -124,7 +124,7 @@
     <footer>
       <img class="footer__icon" src="./assets/git.png" @click="goto('https://github.com/HenrryEsposito/polaroid-web')" />
       <img class="footer__icon" src="./assets/linkedin.png" @click="goto('https://www.linkedin.com/in/henrry-esposito')" />
-      <flex>Henrry Grilo Esposito - Polaroid Land Camera</flex>
+      <flex>Henrry Esposito - Polaroid Land Camera</flex>
     </footer>
   </div>
 </template>
