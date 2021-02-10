@@ -231,6 +231,26 @@ html {
   height: 100%;
   overflow: hidden;
 }
+@media (max-width: 700px), (max-height: 890px) {
+  html {
+    zoom: 60%;
+  }
+}
+@media (max-width: 370px), (max-height: 500px) {
+  html {
+    zoom: 45%;
+  }
+}
+@media (max-width: 300px), (max-height: 375px) {
+  html {
+    zoom: 40%;
+  }
+}
+@media (max-height: 320px) {
+  html {
+    zoom: 30%;
+  }
+}
 body {
   height: 100%;
 }

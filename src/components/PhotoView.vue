@@ -27,7 +27,7 @@ export default {
 </script>
 <style scoped>
 #photo__view {
-  height: 420px;
+  height: 1000px;
   width: 530px;
   position: absolute;
   top: 697px;
@@ -93,7 +93,7 @@ export default {
     opacity: 0;
   }
   100% {
-    opacity: 100%;
+    opacity: 1;
   }
 }
 #css__texture__1 {
